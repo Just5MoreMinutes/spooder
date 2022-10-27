@@ -19,29 +19,47 @@ from typing import Any
 
 #: my modules
 from src.handlers.render import render as r
+from src.handlers.errors import *
 
 
 ########
 # MAIN
 ########
-def rs(_type:str,txt:str) -> str: r.styles(_type,txt)   # type: ignore #: new print lol
+def rs(_type:str,txt:str) -> str: r.styles(_type,txt)  #: new print lol
+def no_none(_list) -> list:
+    for _ in range(int(len(_list))): 
+        for i in _list: 
+            if i != 'None': _list.remove(i) 
+            else: continue
+def qappend(_list:list, var, items:list) -> list:
+    for i in items:
+        var.get(items[i])
+        _list.append(i)
+    no_none(_list)
 
 class web_spider:
+
+    ALL_LINKS = []
 
     def __init__(self, __url, __params) -> None:
         self.__url = __url
         self.__params = __params
 
     @classmethod
-    def downloader(get, params:list, output:str) -> str:  # type: ignore
+    def downloader(GET, params:list, output:str) -> str | str('mb') | SPOODER_DLERROR:    # -> tries to download and/or read website content
         
         #: find all files
-        r = requests.get(get.__url, allow_redirects=True)
+        r = requests.get(GET.__url, allow_redirects=True)
+        GET.ALL_LINKS.append(GET.__url)
 
         soup = BeautifulSoup(r.content, 'lxml')
 
-        for link in soup.find_all('a'):
-            _r = requests.get(link, allow_redirects=True)
+        for link in soup.find_all(True):
+            GET.ALL_LINKS.append(str(link.get('href')))
+            GET.ALL_LINKS.append(str(link.get('src')))
+            no_none(GET.ALL_LINKS)
+
+            _r = requests.get([i for i in GET.ALL_LINKS], allow_redirects=True)
             
             pname = link.split('/')[-1][::-1]   # -> get the name of the current page
             if '.' in pname:

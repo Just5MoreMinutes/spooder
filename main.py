@@ -6,8 +6,8 @@ import sys
 sys.dont_write_bytecode = True  # <- This is only here because pycache annyoed THE LIVING SHIT OUT OF ME, LIKE, STFU PYTHON
 
 from src.handlers import cmd, render
-from src.tools.setup import installer
-from src.tools.web_spider import web_spider
+from src.core.setup import installer
+from src.core.web_spider import web_spider
 
 
 ########
