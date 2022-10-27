@@ -31,11 +31,7 @@ def no_none(_list) -> list:
         for i in _list: 
             if i != 'None': _list.remove(i) 
             else: continue
-def qappend(_list:list, var, items:list) -> list:
-    for i in items:
-        var.get(items[i])
-        _list.append(i)
-    no_none(_list)
+
 
 class web_spider:
 
@@ -46,7 +42,7 @@ class web_spider:
         self.__params = __params
 
     @classmethod
-    def downloader(GET, params:list, output:str) -> str | str('mb') | SPOODER_DLERROR:    # -> tries to download and/or read website content
+    def downloader(GET, params:list, output:str) -> str or str('mb') or SPOODER_DLERROR:    # -> tries to download and/or read website content
         
         #: find all files
         r = requests.get(GET.__url, allow_redirects=True)
