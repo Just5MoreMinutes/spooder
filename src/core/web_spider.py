@@ -35,7 +35,8 @@ def no_none(_list) -> list:
 
 class web_spider:
 
-    ALL_LINKS = []
+    ALL_LINKS = []  #: ALL_LINKS = ['http(s)://example.com/index.html', '...', ...]
+    ALL_FILES = []  #: ALL_FILES = [[<file name>, <file extension>], [<...>,<...>], ...]
 
     def __init__(self, __url, __params) -> None:
         self.__url = __url
@@ -57,13 +58,12 @@ class web_spider:
 
             _r = requests.get([i for i in GET.ALL_LINKS], allow_redirects=True)
             
-            pname = link.split('/')[-1][::-1]   # -> get the name of the current page
+            pname = link.split('/')[-1]   # -> get the name of the current page
             if '.' in pname:
-                fname = pname.split('.')[-1][::-1]    # -> get the file extension
-
+                fname,fext = pname.split('.')[0],pname.split('.')[1]    # -> get the file extension
+                GET.ALL_FILES.append([fname,fext])
             else:
-
-                pass
+                continue
 
 
 
